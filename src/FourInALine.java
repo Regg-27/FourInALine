@@ -223,21 +223,32 @@ public class FourInALine {
 
     static void makeComputerMove() {
         startTime = System.currentTimeMillis();
-        int bestScore = -10000;
         int bestI = -1, bestJ = -1;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (board[i][j] == '-') {
-                    board[i][j] = 'X';
-                    int score = minValue(6, -10000, 10000);
-                    board[i][j] = '-';
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestI = i;
-                        bestJ = j;
+
+        for (int depth = 1; ; depth++) {
+            long elapsed = System.currentTimeMillis() - startTime;
+            if (elapsed >= timeLimit * 1000) {
+                break;
+            }
+            int bestScore = -10000;
+            int tempI = -1, tempJ = -1;
+
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (board[i][j] == '-') {
+                        board[i][j] = 'X';
+                        int score = minValue(depth, -10000, 10000);
+                        board[i][j] = '-';
+                        if (score > bestScore) {
+                            bestScore = score;
+                            tempI = i;
+                            tempJ = j;
+                        }
                     }
                 }
             }
+            bestI = tempI;
+            bestJ = tempJ;
         }
         board[bestI][bestJ] = 'X';
     }
