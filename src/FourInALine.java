@@ -93,13 +93,24 @@ public class FourInALine {
     }
 
     static void getHumanMove() {
-        System.out.print("Choose your next move: ");
-        String move = scanner.next();
-        char rowChar = move.charAt(0);
-        char colChar = move.charAt(1);
-        int rowIndex = rowChar - 'A';
-        int colIndex = colChar - '1';
-        board[rowIndex][colIndex] = 'O';
+        while (true) {
+            System.out.print("Choose your next move: ");
+            String move = scanner.next();
+            if (move.length() < 2) {
+                System.out.println("Enter a valid move.");
+                continue;
+            }
+            char rowChar = move.charAt(0);
+            char colChar = move.charAt(1);
+            int rowIndex = rowChar - 'A';
+            int colIndex = colChar - '1';
+            if (rowIndex >= 0 && rowIndex < 8 && colIndex >= 0 && colIndex < 8 && board[rowIndex][colIndex] == '-') {
+                board[rowIndex][colIndex] = 'O';
+                break;
+            } else {
+                System.out.println("Enter a valid move.");
+            }
+        }
     }
 
     static char checkWinner() {
